@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0B0C10">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="Personalised daily core workouts with timer and guided exercises.">
+  <title>Core Daily</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main id="app">
+
+    <!-- HOME -->
+    <section id="screen-home" class="screen active" aria-label="Configure workout">
+      <div class="scroll">
+        <header class="home-head">
+          <div>
+            <p class="eyebrow" id="greeting">Daily core session</p>
+            <h1>Core Daily</h1>
+          </div>
+          <div class="toggles">
+            <button class="icon-btn" data-toggle="sound" aria-label="Sound effects">
+              <svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path class="on" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/><path class="off" d="M17 9l5 6M22 9l-5 6"/></svg>
+            </button>
+            <button class="icon-btn" data-toggle="voice" aria-label="Voice coach">
+              <svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/><path class="off" d="M4 4l16 16"/></svg>
+            </button>
+            <button class="icon-btn" data-toggle="vibrate" aria-label="Vibration">
+              <svg viewBox="0 0 24 24"><rect x="7.5" y="3" width="9" height="18" rx="2"/><path class="on" d="M4 8v8M20 8v8M1.5 10v4M22.5 10v4"/><path class="off" d="M3 3l18 18"/></svg>
+            </button>
+          </div>
+        </header>
+
+        <div class="cfg" data-key="duration"><h2>Duration</h2><div class="chips cols-4"></div></div>
+        <div class="cfg" data-key="intensity"><h2>Intensity</h2><div class="chips cols-3"></div></div>
+        <div class="cfg" data-key="group"><h2>Target</h2><div class="chips cols-2"></div></div>
+        <div class="cfg" data-key="equip"><h2>Equipment <span class="hint">select all you have</span></h2><div class="chips cols-3"></div></div>
+        <div class="cfg" data-key="complexity"><h2>Movements</h2><div class="chips cols-3"></div></div>
+      </div>
+      <footer class="bottom-bar">
+        <p class="summary" id="home-summary"></p>
+        <button class="btn primary" id="btn-build">Build my workout</button>
+      </footer>
+    </section>
+
+    <!-- PREVIEW -->
+    <section id="screen-preview" class="screen" aria-label="Workout preview">
+      <header class="topbar">
+        <button class="icon-btn" id="btn-preview-back" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <h2>Your workout</h2>
+        <span class="spacer"></span>
+      </header>
+      <div class="scroll">
+        <div class="meta" id="preview-meta"></div>
+        <ol class="ex-list" id="preview-list"></ol>
+        <p class="tip">Tap an exercise to see how it's done or to swap it.</p>
+      </div>
+      <footer class="bottom-bar row">
+        <button class="btn secondary" id="btn-shuffle">
+          <svg viewBox="0 0 24 24"><path d="M3 7h3.5c4 0 6 10 10 10H21M3 17h3.5c1.8 0 3.1-2 4.2-4.3M13.3 11.3C14.4 9 15.7 7 17.5 7H21M18 4l3 3-3 3M18 14l3 3-3 3"/></svg>
+          Shuffle
+        </button>
+        <button class="btn primary" id="btn-start">Start workout</button>
+      </footer>
+    </section>
+
+    <!-- PLAYER -->
+    <section id="screen-player" class="screen" aria-label="Workout">
+      <header class="topbar">
+        <button class="icon-btn" id="btn-quit" aria-label="End workout"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+        <div class="player-progress">
+          <span id="pl-round">Warm-up</span>
+          <span class="dot">·</span>
+          <span id="pl-total">12:00 left</span>
+        </div>
+        <span class="spacer"></span>
+      </header>
+      <div class="segbar" id="pl-segbar"></div>
+      <div class="stage">
+        <div class="phase-badge" id="pl-phase">WARM-UP</div>
+        <div class="fig-card" id="pl-figure"></div>
+        <div class="ex-info">
+          <p class="upnext" id="pl-upnext">Up next</p>
+          <h3 id="pl-name">Exercise</h3>
+          <p class="side" id="pl-side"></p>
+          <ul class="cues" id="pl-cues"></ul>
+        </div>
+        <div class="timer">
+          <svg viewBox="0 0 120 120" class="ring">
+            <circle cx="60" cy="60" r="52" class="ring-bg"/>
+            <circle cx="60" cy="60" r="52" class="ring-fg" id="pl-ring"/>
+          </svg>
+          <div class="timer-text"><span id="pl-secs">0</span><small id="pl-of">sec</small></div>
+        </div>
+        <div class="controls">
+          <button class="icon-btn lg" id="btn-prev" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M18 6l-8 6 8 6V6zM6 6v12"/></svg></button>
+          <button class="play-btn" id="btn-pause" aria-label="Pause">
+            <svg viewBox="0 0 24 24" class="i-pause"><path d="M8 5v14M16 5v14"/></svg>
+            <svg viewBox="0 0 24 24" class="i-play"><path d="M7 4.5l13 7.5-13 7.5z"/></svg>
+          </button>
+          <button class="icon-btn lg" id="btn-next" aria-label="Skip"><svg viewBox="0 0 24 24"><path d="M6 6l8 6-8 6V6zM18 6v12"/></svg></button>
+        </div>
+      </div>
+      <div class="paused-veil" id="pl-paused">Paused</div>
+    </section>
+
+    <!-- DONE -->
+    <section id="screen-done" class="screen" aria-label="Workout complete">
+      <div class="done-wrap">
+        <div class="done-badge"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+        <h1>Workout complete</h1>
+        <p class="muted" id="done-sub">Great work. See you tomorrow.</p>
+        <div class="stats" id="done-stats"></div>
+      </div>
+      <footer class="bottom-bar">
+        <button class="btn primary" id="btn-done">Done</button>
+      </footer>
+    </section>
+  </main>
+
+  <!-- Exercise detail sheet -->
+  <div class="sheet-backdrop" id="sheet-backdrop" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-name">
+      <div class="sheet-grip"></div>
+      <div class="fig-card" id="sheet-figure"></div>
+      <h3 id="sheet-name"></h3>
+      <div class="tags" id="sheet-tags"></div>
+      <p id="sheet-desc"></p>
+      <ul class="cues" id="sheet-cues"></ul>
+      <div class="row">
+        <button class="btn secondary" id="btn-swap">Swap exercise</button>
+        <button class="btn primary" id="btn-sheet-close">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm dialog -->
+  <div class="sheet-backdrop center" id="confirm" hidden>
+    <div class="dialog" role="alertdialog" aria-modal="true" aria-labelledby="confirm-title">
+      <h3 id="confirm-title">End workout?</h3>
+      <p class="muted">Your progress in this session will be lost.</p>
+      <div class="row">
+        <button class="btn secondary" id="btn-confirm-no">Keep going</button>
+        <button class="btn danger" id="btn-confirm-yes">End</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="figures.js"></script>
+  <script src="exercises.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
